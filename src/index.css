@@ -16,11 +16,13 @@ body {
 }
 
 .container {
-  width: 90vh;
+  width: 90vw;
   height: 90vh;
   background-color: rgb(68, 0, 116, 0.75);
   border-radius: 12px;
   backdrop-filter: blur(19px) saturate(180%);
   -webkit-backdrop-filter: blur(19px) saturate(180%);
   border: 1px solid rgb(68, 0, 116, 0.12);
+  display: flex;
 }
+
