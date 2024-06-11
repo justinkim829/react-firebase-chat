@@ -49,13 +49,13 @@ function Detail() {
               </div>
               <img src="./download.png" alt="download" className='icon'/>
             </div>
-            <div className="photo-item">
+            {/* <div className="photo-item">
               <div className="photo-detail">
                 <img src="./favicon.png" alt="Photo item" />
                 <span>photo_2024_2.png</span>
               </div>
               <img src="./download.png" alt="download" className='icon'/>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="option">
@@ -65,6 +65,7 @@ function Detail() {
           </div>
         </div>
         <button>Block User</button>
+        <button className='log-out'>Log Out</button>
       </div>
     </div>
   )
