@@ -46,7 +46,7 @@
     align-items: center;
     gap: 20px;
     padding: 20px;
-    border-bottom: 1px solid darkgray;
+    border-bottom: 1px solid rgb(99, 99, 99);
 
     img {
       width: 50px;
