@@ -1,9 +1,10 @@
 import './login.css';
 import {useState} from 'react';
 import { toast } from 'react-toastify';
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../lib/firebase.js";
 import { doc, setDoc } from "firebase/firestore";
+import upload from '../../lib/upload.js';
 
 function Login() {
 
@@ -11,6 +12,8 @@ function Login() {
     file: null,
     url: ""
   });
+
+  const [loading, setLoading] = useState(false);
 
   function handleAvatar(evt) {
     if (evt.target.files) {
@@ -21,21 +24,36 @@ function Login() {
     }
   }
 
-  function handleLogin(evt) {
+  async function handleLogin(evt) {
     evt.preventDefault();
-    toast.warn("Hello");
+    setLoading(true);
+    const formData = new FormData(evt.target);
+    const { email, password } = Object.fromEntries(formData);
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch(err) {
+      console.error(err);
+      toast.error(err.message);
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function handleCreateAccount(evt) {
     evt.preventDefault();
+    setLoading(true);
     const formData = new FormData(evt.target);
     const { username, password, email } = Object.fromEntries(formData);
 
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
+      const imgUrl = await upload(avatar.file);
+
       await setDoc(doc(db, "users", res.user.uid), {
         username,
         email,
+        avatar: imgUrl,
         id: res.user.uid,
         blocked: []
       });
@@ -48,6 +66,8 @@ function Login() {
     } catch(err) {
       console.error(err);
       toast.error(err.message);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -58,7 +78,7 @@ function Login() {
         <form onSubmit={handleLogin}>
           <input type="text" placeholder='Email' name='email'/>
           <input type="password" placeholder='Password' name='password'/>
-          <button>Sign In</button>
+          <button disabled={loading}>{loading ? "Loading" : "Sign In"}</button>
         </form>
       </div>
       <div className="seperator">
@@ -75,7 +95,7 @@ function Login() {
           <input type="text" placeholder='Username' name='username'/>
           <input type="text" placeholder='Email' name='email'/>
           <input type="password" placeholder='Password' name='password'/>
-          <button>Sign In</button>
+          <button disabled={loading}>{loading ? "Creating Account" : "Sign Up"}</button>
         </form>
       </div>
     </div>
