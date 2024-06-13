@@ -26,3 +26,9 @@ body {
   display: flex;
 }
 
+.loading {
+  padding: 50px;
+  font-size: 36px;
+  border-radius: 10px;
+  background-color: rgb(68, 0, 116, 0.75);
+}
