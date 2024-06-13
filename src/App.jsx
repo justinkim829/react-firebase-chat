@@ -7,7 +7,7 @@ import Notification from "./components/notification/Notification";
 const App = () => {
 
   // Shows if user is logged in or not
-  const user = true;
+  const user = false;
 
   return (
     <div className='container'>
